@@ -1,4 +1,5 @@
 import "./App.css";
+import SignUp from "./auth/SignUp";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ function App() {
           <Route path="/update" element={<h2>Update Product component</h2>} />
           <Route path="/profile" element={<h2>Profile component</h2>} />
           <Route path="/logout" element={<h2>logout component</h2>} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
 
