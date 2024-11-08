@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthForm from "./AuthForm";
 import { useNavigate } from "react-router-dom";
 
@@ -11,15 +11,39 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const auth = localStorage.getItem("user");
+    if (auth) {
+      navigate("/");
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const copySignUpInfo = { ...signUpInfo };
     copySignUpInfo[name] = value;
     setSignUpInfo(copySignUpInfo);
-    console.log(signUpInfo);
   };
 
-  const handleSignUpSubmit = async (e) => {};
+  const handleSignUpSubmit = async (event) => {
+    event.preventDefault(); // Prevents the default form submission
+
+    try {
+      let result = await fetch("http://localhost:8080/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(signUpInfo),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await result.json();
+      console.log(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const signUpFields = [
     {

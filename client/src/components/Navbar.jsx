@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const auth = localStorage.getItem("user");
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/signup");
+  };
+
   return (
     <>
       <nav>
@@ -31,16 +38,17 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/logout">
-              {" "}
-              <h3> Logout</h3>
-            </Link>
-          </li>
-          <li>
-            <Link to="/signup">
-              {" "}
-              <h3>SignUp</h3>
-            </Link>
+            {auth ? (
+              <Link onClick={logOut} to="/signup">
+                {" "}
+                <h3> Logout</h3>
+              </Link>
+            ) : (
+              <Link to="/signup">
+                {" "}
+                <h3>SignUp</h3>
+              </Link>
+            )}
           </li>
         </ul>
       </nav>
