@@ -38,8 +38,14 @@ const SignUp = () => {
       });
       const data = await result.json();
       console.log(data);
-      localStorage.setItem("user", JSON.stringify(data));
-      navigate("/");
+      const { message, success } = data;
+
+      if (success) {
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/");
+      } else {
+        alert(message);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -86,7 +92,7 @@ const SignUp = () => {
       buttonText="Register"
       submitHandler={handleSignUpSubmit}
       linkText="Already have an account? Login"
-      linkPath=""
+      linkPath="/login"
     />
   );
 };

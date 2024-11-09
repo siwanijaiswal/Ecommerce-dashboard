@@ -64,6 +64,9 @@
   justify-content: space-around;
   margin-top: 1.5rem;
 }
+.account a {
+  color: #3620f9;
+}
 
 .form button {
   width: 25%;
