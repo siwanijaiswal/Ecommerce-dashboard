@@ -10,8 +10,36 @@ async function handleUserSignUp(req, res) {
         .json({ message: "User already exists, please login", success: false });
     }
 
-    await User.create({ name, email, password });
-    res.status(201).json({ message: "Signup successful", success: true });
+    let newUser = await User.create({ name, email, password });
+    //removing/deleting password so that it wont goes in the response to the client
+    newUser = newUser.toObject();
+    delete newUser.password;
+
+    res.status(201).json({ newUser, success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error", success: false });
+  }
+}
+
+async function handleUserLogin(req, res) {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(404)
+      .json({ message: "all fields required", success: false });
+  }
+  try {
+    //we dont want to sent password in res so, using select here
+    const user = await User.findOne(req.body).select("-password");
+
+    const errorMsg = "Auth failed email or password wrong";
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: errorMsg, success: false });
+    }
+    res.status(201).json({ message: user, success: true });
+    // res.send(user);
   } catch (err) {
     res.status(500).json({ message: "Internal server error", success: false });
   }
@@ -19,4 +47,5 @@ async function handleUserSignUp(req, res) {
 
 module.exports = {
   handleUserSignUp,
+  handleUserLogin,
 };

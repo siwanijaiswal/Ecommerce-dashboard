@@ -1,13 +1,16 @@
 const express = require("express");
 const app = express();
-const PORT = 8001;
+
 const { connectMongoDb } = require("./connect");
 require("dotenv").config();
 const product = require("./models/product");
 const userRouter = require("./routes/user");
 const cors = require("cors");
 
-const mongo_url = process.env.MONGO;
+const mongo_url = process.env.MONGO_URL;
+const PORT = process.env.PORT || 8000;
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("app is working..");
