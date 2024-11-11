@@ -5,6 +5,7 @@ const { connectMongoDb } = require("./connect");
 require("dotenv").config();
 const product = require("./models/product");
 const userRouter = require("./routes/user");
+const productRouter = require("./routes/product");
 const cors = require("cors");
 
 const mongo_url = process.env.MONGO_URL;
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", userRouter);
+app.use("/product", productRouter);
 
 app.listen(PORT, () => {
   console.log(`app is listening at ${PORT} port`);
