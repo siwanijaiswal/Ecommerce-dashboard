@@ -20,7 +20,9 @@ const AddProduct = () => {
   const userId = JSON.parse(auth).message._id;
   console.log(userId);
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = async (e) => {
+    e.preventDefault(); // Prevent the form from reloading the page or navigating
+
     try {
       const result = await fetch("http://localhost:8080/product/add-product", {
         method: "POST",
@@ -31,6 +33,12 @@ const AddProduct = () => {
       });
       const data = await result.json();
       console.log(data);
+      setAddProductInfo({
+        name: "",
+        price: "",
+        category: "",
+        company: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -39,38 +47,44 @@ const AddProduct = () => {
   return (
     <div className="product">
       <h1>Add Product</h1>
-      <input
-        type="text"
-        name="name"
-        placeholder="Enter Product Name"
-        value={addProductInfo.name}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="price"
-        placeholder="Enter Product Price"
-        value={addProductInfo.price}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="category"
-        placeholder="Enter Product Category"
-        value={addProductInfo.category}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="company"
-        placeholder="Enter Product Company"
-        value={addProductInfo.company}
-        onChange={handleChange}
-      />
+      <form onSubmit={handleAddProduct}>
+        <input
+          type="text"
+          name="name"
+          required
+          placeholder="Enter Product Name"
+          value={addProductInfo.name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="price"
+          required
+          placeholder="Enter Product Price"
+          value={addProductInfo.price}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="category"
+          required
+          placeholder="Enter Product Category"
+          value={addProductInfo.category}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="company"
+          required
+          placeholder="Enter Product Company"
+          value={addProductInfo.company}
+          onChange={handleChange}
+        />
 
-      <button className="prod-btn" onClick={handleAddProduct}>
-        Add Product
-      </button>
+        <button className="prod-btn" type="submit">
+          Add Product
+        </button>
+      </form>
     </div>
   );
 };

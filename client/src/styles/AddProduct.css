@@ -1,10 +1,14 @@
-.product {
+.product form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   margin-top: 5rem;
+}
+.product h1 {
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .product input {
