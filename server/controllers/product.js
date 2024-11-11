@@ -8,12 +8,26 @@ async function handleAddProduct(req, res) {
 }
 
 async function handleListProduct(req, res) {
-  const products = await product.find();
-  console.log(products);
-  if (products.length > 0) {
-    res.send(products);
-  } else {
-    res.send({ message: "No products found" });
+  try {
+    const products = await product.find();
+    console.log(products);
+    if (products.length > 0) {
+      res.send(products);
+    } else {
+      res.send({ message: "No products found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error finding product", error });
   }
 }
-module.exports = { handleAddProduct, handleListProduct };
+
+async function handleRemoveProduct(req, res) {
+  try {
+    const delProduct = await product.deleteOne({ _id: req.params.id });
+    res.send(delProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting product", error });
+  }
+}
+
+module.exports = { handleAddProduct, handleListProduct, handleRemoveProduct };
