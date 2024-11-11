@@ -11,9 +11,11 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
+    required: true,
   },
   company: {
     type: String,
+    required: true,
   },
   userId: {
     type: String,

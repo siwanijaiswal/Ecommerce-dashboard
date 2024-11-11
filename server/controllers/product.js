@@ -7,4 +7,13 @@ async function handleAddProduct(req, res) {
   res.send(result);
 }
 
-module.exports = handleAddProduct;
+async function handleListProduct(req, res) {
+  const products = await product.find();
+  console.log(products);
+  if (products.length > 0) {
+    res.send(products);
+  } else {
+    res.send({ message: "No products found" });
+  }
+}
+module.exports = { handleAddProduct, handleListProduct };
