@@ -12,7 +12,6 @@ function App() {
   return (
     <>
       <Router>
-        {/* //uses link which is a part of react-router-dom, so kept inside router */}
         <Navbar />
         <Routes>
           <Route element={<PrivateComponent />}>
@@ -20,15 +19,11 @@ function App() {
             <Route path="/add" element={<AddProduct />} />
             <Route path="/update" element={<h2>Update Product component</h2>} />
             <Route path="/profile" element={<h2>Profile component</h2>} />
-
-            {/* <Route path="/logout" element={<h2>logout component</h2>} /> */}
           </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
-
-      {/* //dont need any routing here */}
       <Footer />
     </>
   );

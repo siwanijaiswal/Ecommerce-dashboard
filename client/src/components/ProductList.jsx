@@ -14,6 +14,34 @@ const ProductList = () => {
     console.log(data);
   };
 
+  const handleRemoveProduct = async (id) => {
+    try {
+      const result = await fetch(
+        `http://localhost:8080/product/product/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await result.json();
+      console.log(data);
+      if (data.acknowledged && data.deletedCount === 1) {
+        alert("Product deleted");
+
+        // we can call handleFetchProducts(); here aswell or we can just filter out also
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== id)
+        );
+      } else {
+        alert("Error in deleting product");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="list-products">
       <h1>Products</h1>
@@ -23,6 +51,7 @@ const ProductList = () => {
         <li>Price</li>
         <li>Category</li>
         <li>Company</li>
+        <li>Operations</li>
       </ul>
 
       {products.map((product, index) => {
@@ -33,6 +62,12 @@ const ProductList = () => {
             <li> {product.price} </li>
             <li>{product.category} </li>
             <li>{product.company} </li>
+            <li>
+              <button>Update</button>
+              <button onClick={() => handleRemoveProduct(product._id)}>
+                Delete
+              </button>
+            </li>
           </ul>
         );
       })}
