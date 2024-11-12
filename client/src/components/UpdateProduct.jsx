@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateProduct = () => {
   const [addProductInfo, setAddProductInfo] = useState({
@@ -17,28 +17,49 @@ const UpdateProduct = () => {
   };
 
   const auth = localStorage.getItem("user");
-  const userId = JSON.parse(auth).message._id;
+  const userId = auth ? JSON.parse(auth).message._id : null;
   console.log(userId);
+
+  const params = useParams();
 
   const handleGetProductById = async (e) => {
     const getProduct = await fetch(
       `http://localhost:8080/product/product/${params.id}`
     );
     const data = await getProduct.json();
-    console.log(data);
     setAddProductInfo(data);
   };
-
-  const params = useParams();
 
   useEffect(() => {
     handleGetProductById();
   }, []);
 
+  const navigate = useNavigate();
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    try {
+      const updateProduct = await fetch(
+        `http://localhost:8080/product/product/${params.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(addProductInfo),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await updateProduct.json();
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="product">
       <h1>Update Product</h1>
-      <form onSubmit={handleGetProductById}>
+      <form onSubmit={handleUpdateProduct}>
         <input
           type="text"
           name="name"
