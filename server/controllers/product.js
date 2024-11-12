@@ -53,10 +53,27 @@ async function handleUpdateProduct(req, res) {
   }
 }
 
+//search function for multiple fields
+async function handleSearchProduct(req, res) {
+  const searchProduct = await product.find({
+    $or: [
+      { name: { $regex: req.params.key } },
+      {
+        category: { $regex: req.params.key },
+      },
+      {
+        company: { $regex: req.params.key },
+      },
+    ],
+  });
+  res.send(searchProduct);
+}
+
 module.exports = {
   handleAddProduct,
   handleListProduct,
   handleRemoveProduct,
   handleGetProductById,
   handleUpdateProduct,
+  handleSearchProduct,
 };
