@@ -18,7 +18,6 @@ const UpdateProduct = () => {
 
   const auth = localStorage.getItem("user");
   const userId = auth ? JSON.parse(auth).message._id : null;
-  console.log(userId);
 
   const params = useParams();
 
@@ -49,7 +48,6 @@ const UpdateProduct = () => {
         }
       );
       const data = await updateProduct.json();
-      console.log(data);
       navigate("/");
     } catch (error) {
       console.log(error);
