@@ -30,4 +30,22 @@ async function handleRemoveProduct(req, res) {
   }
 }
 
-module.exports = { handleAddProduct, handleListProduct, handleRemoveProduct };
+async function handleGetSingleProduct(req, res) {
+  try {
+    const singleProduct = await product.findOne({ _id: req.params.id });
+    if (singleProduct) {
+      res.send(singleProduct);
+    } else {
+      res.send(" No data found");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = {
+  handleAddProduct,
+  handleListProduct,
+  handleRemoveProduct,
+  handleGetSingleProduct,
+};
