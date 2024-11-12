@@ -3,14 +3,12 @@ const product = require("../models/product");
 async function handleAddProduct(req, res) {
   let products = new product(req.body);
   let result = await products.save();
-  console.log(result);
   res.send(result);
 }
 
 async function handleListProduct(req, res) {
   try {
     const products = await product.find();
-    console.log(products);
     if (products.length > 0) {
       res.send(products);
     } else {
@@ -30,7 +28,7 @@ async function handleRemoveProduct(req, res) {
   }
 }
 
-async function handleGetSingleProduct(req, res) {
+async function handleGetProductById(req, res) {
   try {
     const singleProduct = await product.findOne({ _id: req.params.id });
     if (singleProduct) {
@@ -39,7 +37,19 @@ async function handleGetSingleProduct(req, res) {
       res.send(" No data found");
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Error getting the product", error });
+  }
+}
+
+async function handleUpdateProduct(req, res) {
+  try {
+    const updateProduct = await product.updateOne(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
+    res.send(updateProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating the product", error });
   }
 }
 
@@ -47,5 +57,6 @@ module.exports = {
   handleAddProduct,
   handleListProduct,
   handleRemoveProduct,
-  handleGetSingleProduct,
+  handleGetProductById,
+  handleUpdateProduct,
 };

@@ -5,12 +5,14 @@ const {
   handleAddProduct,
   handleListProduct,
   handleRemoveProduct,
-  handleGetSingleProduct,
+  handleGetProductById,
+  handleUpdateProduct,
 } = require("../controllers/product");
 
 router.post("/add-product", handleAddProduct);
 router.get("/list-products", handleListProduct);
 router.delete("/product/:id", handleRemoveProduct);
-router.get("/product/:id", handleGetSingleProduct);
+router.get("/product/:id", handleGetProductById);
+router.put("/product/:id", handleUpdateProduct);
 
 module.exports = router;
